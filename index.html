@@ -22,18 +22,19 @@
     width: 350px;
   }
   </style>
-  <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-</head>
+  <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+<script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 <body>
 <df-messenger
-    location="us-central1"
-	project-id="ipt-internet-para-todos"
-	agent-id="84910576-7de2-4fe1-a2a7-240529f50975"
-	language-code="es"
->
+  location="us-central1"
+  project-id="ipt-internet-para-todos"
+  agent-id="84910576-7de2-4fe1-a2a7-240529f50975"
+  language-code="es"
+  max-query-length="-1"
+  allow-feedback="all">
   <df-messenger-chat
-      chat-title="Agente IPT (Version Trial)" <!-- TODO: update dialog title as needed -->
-  ></df-messenger-chat>
+    chat-title="Agente IPT">
+  </df-messenger-chat>
 </df-messenger>
 
 <script>
