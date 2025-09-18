@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Documentos Canon con Vertex AI</title>
+    <!-- Incluye Tailwind CSS para un diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluye la fuente Inter de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Paquete de JavaScript del widget de Vertex AI Search con 'defer' -->
+    <!-- 'defer' asegura que el script se ejecute después de que el HTML se haya analizado, evitando errores de inicialización -->
+    <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=es_419" defer></script>
+    <style>
+        /* Aplica la fuente Inter al cuerpo del documento */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Contenedor principal para centrar el contenido -->
+    <div class="min-h-screen flex flex-col items-center justify-center p-4">
+        <div class="w-full max-w-md text-center">
+            <!-- Título de la página -->
+            <h1 class="text-3xl font-bold mb-2 text-blue-600">Búsqueda Inteligente</h1>
+            <p class="text-gray-600 mb-6">Usa nuestro buscador impulsado por IA para encontrar lo que necesitas.</p>
+
+            <!-- El elemento que abre el widget al hacer clic. No tiene que ser un input. -->
+            <div class="relative">
+                <input 
+                    placeholder="Buscar aquí..." 
+                    id="searchWidgetTrigger" 
+                    class="w-full px-4 py-3 pr-10 text-base border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out cursor-pointer"
+                />
+                <!-- Ícono de búsqueda dentro del input -->
+                <svg class="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- El elemento del widget de búsqueda no es visible por defecto -->
+    <!-- Se activa mediante el elemento con el triggerId correspondiente -->
+    <gen-search-widget
+      configId="6c797c13-37c9-4744-8bf1-2f0dfb9fbec7"
+      location="us"
+      triggerId="searchWidgetTrigger">
+    </gen-search-widget>
+
+</body>
+</html>
