@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Búsqueda de Documentos Proyecto Canon | Agente IPTech</title>
+  <title>Búsqueda de Documentos Proyecto Canon | IPTech</title>
 
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,16 +22,13 @@
       background-color: #f8fafc;
     }
 
-    /* Hace que el widget ocupe toda la parte inferior */
     gen-search-widget {
       display: block;
-      flex: 1;
       width: 100%;
       min-height: 70vh;
       margin-top: 1rem;
     }
 
-    /* Mantiene el banner fijo arriba incluso cuando aparecen los resultados */
     .sticky-header {
       position: sticky;
       top: 0;
@@ -44,37 +41,44 @@
 
 <body class="flex flex-col min-h-screen text-gray-800">
 
-  <!-- Header con logo -->
-  <header class="sticky-header flex justify-center items-center p-4 border-b border-gray-200">
+  <!-- Header con logo más grande -->
+  <header class="sticky-header flex justify-center items-center py-6 border-b border-gray-200 bg-white">
     <img
-      src="assets/Logo_Agente_IPTech.png"
+      src="https://storage.googleapis.com/ipt-internet-para-todos/public/d8c1698e-ed55-4be3-a5ac-092d28f1f143.png"
       alt="Logo Agente IPTech"
-      class="h-14 object-contain"
+      class="h-24 object-contain"
     />
   </header>
 
-  <!-- Banner e input -->
-  <section class="sticky-header flex flex-col items-center bg-white pt-6 pb-4 px-4">
+  <!-- Banner + título + buscador -->
+  <section class="sticky-header flex flex-col items-center bg-white pt-8 pb-6 px-4">
     <div class="max-w-3xl w-full text-center">
-      <h1 class="text-3xl font-bold text-blue-600 mb-2">Búsqueda de Documentos Proyecto Canon</h1>
-      <p class="text-gray-600 mb-5">
-        Explora la información de los proyectos Canon de Internet para Todos con la potencia de nuestro Agente IPTech impulsado por IA.
+      <h1 class="text-3xl md:text-4xl font-bold text-blue-600 mb-3">
+        Búsqueda de Documentos Proyecto Canon
+      </h1>
+      <p class="text-gray-600 mb-6 text-base md:text-lg">
+        Explora la información de los proyectos Canon de Internet para Todos con la potencia de nuestro
+        <span class="font-semibold">Agente IPTech impulsado por IA</span>.
       </p>
-      <img
-        src="assets/torre_telco.jpeg"
-        alt="Proyectos Canon"
-        class="rounded-xl shadow-md w-full h-48 object-cover mb-6"
-      />
 
-      <!-- Input del buscador -->
+      <!-- Imagen banner más grande -->
+      <div class="flex justify-center mb-6">
+        <img
+          src="assets/torre_telco.jpeg"
+          alt="Proyectos Canon"
+          class="rounded-xl shadow-md w-full h-72 object-cover"
+        />
+      </div>
+
+      <!-- Campo de búsqueda -->
       <div class="relative">
         <input
           placeholder="Buscar en documentos..."
           id="searchWidgetTrigger"
-          class="w-full px-5 py-3 pr-10 text-base border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out cursor-pointer"
+          class="w-full px-5 py-4 pr-12 text-base md:text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out cursor-pointer"
         />
         <svg
-          class="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+          class="absolute right-5 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -89,7 +93,7 @@
     </div>
   </section>
 
-  <!-- Widget de resultados -->
+  <!-- Resultados -->
   <main class="flex-grow flex justify-center px-4 py-6 bg-gray-50">
     <div class="max-w-5xl w-full">
       <gen-search-widget
@@ -106,6 +110,8 @@
   </footer>
 </body>
 </html>
+
+
 
 
 
