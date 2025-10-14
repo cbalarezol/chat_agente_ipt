@@ -187,68 +187,82 @@
   <input id="csvInputHidden" type="file" accept=".csv" />
   <div id="csvStatus" class="csv-status" role="status" aria-live="polite"></div>
 
-  <!-- Script botón flotante -->
+    <!-- Script botón flotante -->
   <script>
-    const dfMessengerEl = document.querySelector("df-messenger");
-    const fabBtn = document.getElementById("csvFab");
-    const fileInput = document.getElementById("csvInputHidden");
-    const statusEl = document.getElementById("csvStatus");
+    document.addEventListener("DOMContentLoaded", () => {
+      const fileInput = document.getElementById("csvInputHidden");
+      const statusEl = document.getElementById("csvStatus");
+      const fabBtn = document.getElementById("csvFab");
 
-    function showStatus(msg) {
-      statusEl.textContent = msg;
-      statusEl.classList.add("csv-status--show");
-      clearTimeout(showStatus._t);
-      showStatus._t = setTimeout(() => statusEl.classList.remove("csv-status--show"), 2500);
-    }
-
-    fabBtn.addEventListener("click", () => fileInput.click());
-
-    fileInput.addEventListener("change", async (ev) => {
-      const file = ev.target.files && ev.target.files[0];
-      if (!file) return;
-
-      if (!file.name.toLowerCase().endsWith(".csv")) {
-        showStatus("⚠️ Solo se permiten archivos .csv");
-        fileInput.value = "";
-        return;
+      function showStatus(msg) {
+        statusEl.textContent = msg;
+        statusEl.classList.add("csv-status--show");
+        clearTimeout(showStatus._t);
+        showStatus._t = setTimeout(() => statusEl.classList.remove("csv-status--show"), 2500);
       }
 
-      try {
-        showStatus("📤 Procesando archivo…");
-        const base64 = await toBase64(file);
+      // Esperar hasta que el componente df-messenger esté disponible
+      const waitForMessenger = async () => {
+        return new Promise((resolve) => {
+          const check = () => {
+            const el = document.querySelector("df-messenger");
+            if (el && el.shadowRoot) {
+              resolve(el);
+            } else {
+              setTimeout(check, 500);
+            }
+          };
+          check();
+        });
+      };
 
-        if (!dfMessengerEl || typeof dfMessengerEl.sendCustomEvent !== "function") {
-          showStatus("⚠️ No se pudo comunicar con el agente");
-          console.warn("df-messenger no disponible o sin sendCustomEvent");
+      fabBtn.addEventListener("click", () => fileInput.click());
+
+      fileInput.addEventListener("change", async (ev) => {
+        const file = ev.target.files && ev.target.files[0];
+        if (!file) return;
+
+        if (!file.name.toLowerCase().endsWith(".csv")) {
+          showStatus("⚠️ Solo se permiten archivos .csv");
+          fileInput.value = "";
           return;
         }
 
-        dfMessengerEl.sendCustomEvent("archivo_csv_cargado", {
-          filename: file.name,
-          content_b64: base64
-        });
+        try {
+          showStatus("📤 Procesando archivo…");
+          const base64 = await toBase64(file);
+          const dfMessengerEl = await waitForMessenger();
 
-        showStatus(`✅ ${file.name} cargado`);
-        setTimeout(() => { fileInput.value = ""; }, 300);
-      } catch (e) {
-        console.error(e);
-        showStatus("❌ Error al procesar el archivo");
+          // Enviar evento personalizado
+          dfMessengerEl.dispatchEvent(new CustomEvent("df-event", {
+            bubbles: true,
+            detail: {
+              type: "custom",
+              event: "archivo_csv_cargado",
+              data: {
+                filename: file.name,
+                content_b64: base64
+              }
+            }
+          }));
+
+          showStatus(`✅ ${file.name} cargado`);
+          setTimeout(() => { fileInput.value = ""; }, 300);
+        } catch (e) {
+          console.error("Error enviando archivo:", e);
+          showStatus("❌ No se pudo comunicar con el agente");
+        }
+      });
+
+      function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(String(reader.result).split(",")[1]);
+          reader.onerror = reject;
+        });
       }
     });
-
-    function toBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          try {
-            const b64 = String(reader.result).split(",")[1];
-            resolve(b64);
-          } catch (e) { reject(e); }
-        };
-        reader.onerror = reject;
-      });
-    }
   </script>
 
   <!-- Eventos sugeridos -->
@@ -261,6 +275,7 @@
   </script>
 </body>
 </html>
+
 
 
 
