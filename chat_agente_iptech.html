@@ -187,7 +187,7 @@
   <input id="csvInputHidden" type="file" accept=".csv" />
   <div id="csvStatus" class="csv-status" role="status" aria-live="polite"></div>
 
-    <!-- Script botón flotante -->
+  <!-- Script botón flotante -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const fileInput = document.getElementById("csvInputHidden");
@@ -233,18 +233,9 @@
           const base64 = await toBase64(file);
           const dfMessengerEl = await waitForMessenger();
 
-          // Enviar evento personalizado
-          dfMessengerEl.dispatchEvent(new CustomEvent("df-event", {
-            bubbles: true,
-            detail: {
-              type: "custom",
-              event: "archivo_csv_cargado",
-              data: {
-                filename: file.name,
-                content_b64: base64
-              }
-            }
-          }));
+          // Enviar archivo como mensaje estándar al agente
+          const message = `#archivo_csv_cargado\n${file.name}\n${base64}`;
+          dfMessengerEl.renderCustomText(message);
 
           showStatus(`✅ ${file.name} cargado`);
           setTimeout(() => { fileInput.value = ""; }, 300);
@@ -275,6 +266,7 @@
   </script>
 </body>
 </html>
+
 
 
 
