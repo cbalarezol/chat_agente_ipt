@@ -119,8 +119,57 @@
       }
     });
   </script>
+    <!-- === BOTÓN PARA SUBIR ARCHIVO CSV === -->
+  <div id="upload-container" style="margin-top:15px; text-align:center;">
+    <label for="csvInput"
+           style="display:inline-block; padding:8px 16px; background:#0066cc; color:white; border-radius:8px; cursor:pointer; font-weight:600;">
+      📎 Explorar archivo CSV
+    </label>
+    <input id="csvInput" type="file" accept=".csv" style="display:none;">
+    <p id="upload-status" style="font-size:13px; color:#444; margin-top:6px;"></p>
+  </div>
+
+  <script>
+    const dfMessenger = document.querySelector("df-messenger");
+    const fileInput = document.getElementById("csvInput");
+    const status = document.getElementById("upload-status");
+
+    // Al seleccionar el archivo
+    fileInput.addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.name.endsWith(".csv")) {
+        status.innerText = "⚠️ Solo se permiten archivos CSV.";
+        return;
+      }
+
+      status.innerText = "📤 Procesando archivo...";
+
+      const base64 = await toBase64(file);
+
+      // 👉 Enviar evento personalizado al agente Vertex
+      dfMessenger.sendCustomEvent("archivo_csv_cargado", {
+        filename: file.name,
+        content_b64: base64
+      });
+
+      status.innerText = `✅ Archivo ${file.name} cargado correctamente.`;
+    });
+
+    // Convertir archivo a base64
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+      });
+    }
+  </script>
 </body>
 </html>
+
 
 
 
