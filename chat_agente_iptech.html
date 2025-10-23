@@ -235,7 +235,9 @@
 
           // Enviar archivo como mensaje estándar al agente
           const message = `#archivo_csv_cargado\n${file.name}\n${base64}`;
-          dfMessengerEl.renderCustomText(message);
+          //dfMessengerEl.renderCustomText(message);
+          // CORRECTO
+          dfMessengerEl.sendQuery(message);
 
           showStatus(`✅ ${file.name} cargado`);
           setTimeout(() => { fileInput.value = ""; }, 300);
@@ -266,6 +268,7 @@
   </script>
 </body>
 </html>
+
 
 
 
